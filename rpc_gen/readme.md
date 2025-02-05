@@ -1,0 +1,1 @@
+在rpcgen里面使用cwgo生成client代码

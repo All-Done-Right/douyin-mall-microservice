@@ -8,6 +8,9 @@ service ProductCatalogService {
   rpc ListProducts(ListProductsReq) returns (ListProductsResp) {}
   rpc GetProduct(GetProductReq) returns (GetProductResp) {}
   rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp) {}
+  rpc CreateProduct(CreateProductReq) returns (CreateProductResp) {}  // 创建商品
+  rpc UpdateProduct(UpdateProductReq) returns (UpdateProductResp) {}  // 修改商品
+  rpc DeleteProduct(DeleteProductReq) returns (DeleteProductResp) {}  // 删除商品
 }
 
 message ListProductsReq{
@@ -45,4 +48,31 @@ message SearchProductsReq {
 
 message SearchProductsResp {
   repeated Product results = 1;
+}
+
+// 创建商品
+message CreateProductReq {
+  Product product = 1;
+}
+
+message CreateProductResp {
+  uint32 id = 1;  // 返回创建的商品ID
+}
+
+// 修改商品
+message UpdateProductReq {
+  Product product = 1;
+}
+
+message UpdateProductResp {
+  bool success = 1;  // 操作是否成功
+}
+
+// 删除商品
+message DeleteProductReq {
+  uint32 id = 1;  // 商品ID
+}
+
+message DeleteProductResp {
+  bool success = 1;  // 操作是否成功
 }

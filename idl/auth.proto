@@ -14,13 +14,13 @@ message DeliverTokenReq {
 }
 
 message VerifyTokenReq {
-    string token = 1;   // 字段编号从1开始
+    string token = 1;  
 }
 
 message DeliveryResp {
-    string token = 1;   // 字段编号从1开始
+    string token = 1;   
 }
 
 message VerifyResp {
-    bool res = 1;       // 字段编号从1开始
+    bool res = 1;       
 }
