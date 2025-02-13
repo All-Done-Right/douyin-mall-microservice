@@ -1,17 +1,3 @@
-// Copyright 2024 CloudWeGo Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package service
 
 import (
@@ -40,17 +26,16 @@ func (s *RegisterService) Run(req *user.RegisterReq) (resp *user.RegisterResp, e
 	if req.Password != req.ConfirmPassword {
 		return nil, errors.New("password not match")
 	}
-	passwordHashed, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, err
+		return
 	}
 	newUser := &model.User{
 		Email:          req.Email,
-		PasswordHashed: string(passwordHashed),
+		PasswordHashed: string(hashedPassword),
 	}
-	err = model.Create(s.ctx, mysql.DB, newUser)
-	if err != nil {
-		return nil, err
+	if err = model.Create(mysql.DB, s.ctx, newUser); err != nil {
+		return
 	}
 
 	return &user.RegisterResp{UserId: int32(newUser.ID)}, nil

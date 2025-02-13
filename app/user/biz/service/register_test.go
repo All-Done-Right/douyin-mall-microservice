@@ -1,48 +1,52 @@
-// Copyright 2024 CloudWeGo Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package service
 
 import (
 	"context"
-	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/All-Done-Right/douyin-mall-microservice/app/user/biz/dal/mysql"
 	user "github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/user"
-	"github.com/joho/godotenv"
 )
 
 func TestRegister_Run(t *testing.T) {
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		t.Fatalf("Failed to load .env file: %v", err)
-		fmt.Println(err)
-	}
 	mysql.Init()
 	ctx := context.Background()
 	s := NewRegisterService(ctx)
 	// init req and assert value
 
-	req := &user.RegisterReq{
-		Email:           "demo@damin.com",
-		Password:        "FJODIAFUFJO",
-		ConfirmPassword: "FJODIAFUFJO",
-	}
+	req := &user.RegisterReq{}
 	resp, err := s.Run(req)
 	t.Logf("err: %v", err)
 	t.Logf("resp: %v", resp)
 
 	// todo: edit your unit test
+
+}
+
+func TestRegisterService_Run(t *testing.T) {
+	type args struct {
+		req *user.RegisterReq
+	}
+	tests := []struct {
+		name     string
+		s        *RegisterService
+		args     args
+		wantResp *user.RegisterResp
+		wantErr  bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotResp, err := tt.s.Run(tt.args.req)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("RegisterService.Run() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotResp, tt.wantResp) {
+				t.Errorf("RegisterService.Run() = %v, want %v", gotResp, tt.wantResp)
+			}
+		})
+	}
 }
