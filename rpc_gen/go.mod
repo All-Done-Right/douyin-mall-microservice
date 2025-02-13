@@ -1,21 +1,13 @@
 module github.com/All-Done-Right/douyin-mall-microservice/rpc_gen
 
-<<<<<<< HEAD
-go 1.21.0
-=======
-go 1.23.2
->>>>>>> c204308efda9a79278339da16bb16457d06bc477
+go 1.21.5
 
 replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
 
 require (
 	github.com/cloudwego/fastpb v0.0.5
 	github.com/cloudwego/kitex v0.12.1
-<<<<<<< HEAD
-	google.golang.org/protobuf v1.36.4
-=======
 	google.golang.org/protobuf v1.33.0
->>>>>>> c204308efda9a79278339da16bb16457d06bc477
 )
 
 require (
