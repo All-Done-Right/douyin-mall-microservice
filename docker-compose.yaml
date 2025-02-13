@@ -5,11 +5,7 @@ services:
     ports:
       - "8500:8500"
   mysql:
-<<<<<<< HEAD
-    image: 'mysql:8'
-=======
     image: 'mysql:latest'
->>>>>>> c204308efda9a79278339da16bb16457d06bc477
     ports:
       - 3306:3306
     environment:
@@ -18,20 +14,6 @@ services:
       - MYSQL_PASSWORD=gorm
       - MYSQL_ROOT_PASSWORD=root
   redis:
-<<<<<<< HEAD
-    image: 'redis:7.2.4-alpine' 
-    ports:
-      - 6379:6379
-  prometheus:
-    image: "prom/prometheus:v3.0.0"
-    volumes:
-      - ./deploy/config/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    ports:
-      - "9090:9090"
-=======
     image: 'redis:latest'
     ports:
       - 6379:6379
->>>>>>> c204308efda9a79278339da16bb16457d06bc477
