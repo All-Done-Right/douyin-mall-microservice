@@ -1,6 +1,6 @@
 module github.com/All-Done-Right/douyin-mall-microservice/app/auth
 
-go 1.23.2
+go 1.21.5
 
 replace (
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen => ../../rpc_gen
@@ -11,7 +11,6 @@ require (
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen v0.0.0-00010101000000-000000000000
 	github.com/cloudwego/kitex v0.12.1
 	github.com/golang-jwt/jwt/v4 v4.5.1
-	github.com/joho/godotenv v1.5.1
 	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20241120035129-55da83caab1b
 	github.com/kitex-contrib/registry-consul v0.1.0
 	github.com/kr/pretty v0.3.1
