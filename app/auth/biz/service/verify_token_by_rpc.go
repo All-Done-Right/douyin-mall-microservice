@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-
 	"github.com/All-Done-Right/douyin-mall-microservice/app/auth/conf"
 	auth "github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/auth"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -19,7 +19,8 @@ func NewVerifyTokenByRPCService(ctx context.Context) *VerifyTokenByRPCService {
 func (s *VerifyTokenByRPCService) Run(req *auth.VerifyTokenReq) (resp *auth.VerifyResp, err error) {
 	// 解析 JWT 令牌
 	token, err := jwt.Parse(req.Token, func(token *jwt.Token) (interface{}, error) {
-		return []byte(conf.JWTSecret), nil
+		klog.Info("jwt secret读取：" + conf.GetConf().JWT.Secret)
+		return []byte(conf.GetConf().JWT.Secret), nil
 	})
 	if err != nil {
 		return &auth.VerifyResp{

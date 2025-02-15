@@ -17,3 +17,11 @@ services:
     image: 'redis:latest'
     ports:
       - 6379:6379
+  # Jaeger
+  jaeger-all-in-one:
+    container_name: jaeger-all-in-one
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"

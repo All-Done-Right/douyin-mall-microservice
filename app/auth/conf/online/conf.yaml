@@ -1,6 +1,6 @@
 kitex:
   service: "auth"
-  address: ":8882"
+  address: ":8887"
   log_level: info
   log_file_name: "log/kitex.log"
   log_max_size: 10
@@ -16,3 +16,6 @@ registry:
 mysql:
   dsn: "gorm:gorm@tcp(127.0.0.1:3306)/gorm?charset=utf8mb4&parseTime=True&loc=Local"
 
+jwt:
+  secret: "b53XkFgWDlyCcTyXI3YQXqhvmJOnJDuT"
+  expire_time: 24 # 过期时间 (小时)
