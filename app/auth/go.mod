@@ -1,6 +1,6 @@
 module github.com/All-Done-Right/douyin-mall-microservice/app/auth
 
-go 1.23.2
+go 1.21.5
 
 replace (
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen => ../../rpc_gen
