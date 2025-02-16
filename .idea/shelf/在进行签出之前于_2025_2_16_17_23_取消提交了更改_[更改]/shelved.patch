@@ -1,0 +1,29 @@
+Index: app/product/biz/model/product.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model\r\n\r\nimport (\r\n\t\"context\"\r\n\t\"gorm.io/gorm\"\r\n)\r\n\r\ntype Product struct {\r\n\tBase\r\n\tName        string  `json:\"name\"`\r\n\tDescription string  `json:\"description\"`\r\n\tPicture     string  `json:\"picture\"`\r\n\tPrice       float32 `json:\"price\"`\r\n\r\n\tCategories []Category `gorm:\"many2many:product_category\" json:\"categories\"`\r\n}\r\n\r\nfunc (p Product) TableName() string {\r\n\treturn \"product\"\r\n}\r\n\r\ntype ProductQuery struct {\r\n\tctx context.Context\r\n\tdb  *gorm.DB\r\n}\r\n\r\nfunc (p ProductQuery) GetById(productId int) (product Product, err error) {\r\n\terr = p.db.WithContext(p.ctx).Model(&Product{}).Where(&Product{Base: Base{ID: productId}}).First(&product).Error\r\n\treturn\r\n}\r\n\r\nfunc (p ProductQuery) SearchProducts(q string) (products []*Product, err error) {\r\n\terr = p.db.WithContext(p.ctx).Model(&Product{}).Find(&products, \"name like ? or description like ?\", \"%\"+q+\"%\", \"%\"+q+\"%\").Error\r\n\treturn\r\n}\r\n\r\nfunc SearchProduct(db *gorm.DB, ctx context.Context, q string) (product []*Product, err error) {\r\n\terr = db.WithContext(ctx).Model(&Product{}).Find(&product, \"name like ? or description like ?\", \"%\"+q+\"%\", \"%\"+q+\"%\").Error\r\n\treturn product, err\r\n}\r\n\r\nfunc NewProductQuery(ctx context.Context, db *gorm.DB) *ProductQuery {\r\n\treturn &ProductQuery{ctx: ctx, db: db}\r\n}\r\n
+===================================================================
+diff --git a/app/product/biz/model/product.go b/app/product/biz/model/product.go
+--- a/app/product/biz/model/product.go	(revision 95fac6b97c1910b3bcc016fd1e50d4fd7f4a3a15)
++++ b/app/product/biz/model/product.go	(date 1739691965392)
+@@ -42,3 +42,20 @@
+ func NewProductQuery(ctx context.Context, db *gorm.DB) *ProductQuery {
+ 	return &ProductQuery{ctx: ctx, db: db}
+ }
++
++// CreateProduct 创建产品
++func (p *ProductQuery) CreateProduct(req Product) (product Product, err error) {
++	// 使用 WithContext 确保操作在上下文中执行
++	err = p.db.WithContext(p.ctx).Create(&req).Error
++	if err != nil {
++		return Product{}, err
++	}
++	return req, nil
++}
++
++// DeleteProduct 根据产品 ID 删除产品
++func (p *ProductQuery) DeleteProduct(productId int) (err error) {
++	// 使用 WithContext 确保操作在上下文中执行
++	err = p.db.WithContext(p.ctx).Delete(&Product{}, productId).Error
++	return err
++}
