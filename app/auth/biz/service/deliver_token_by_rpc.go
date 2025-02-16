@@ -18,17 +18,20 @@ func NewDeliverTokenByRPCService(ctx context.Context) *DeliverTokenByRPCService 
 
 // Run create note info
 func (s *DeliverTokenByRPCService) Run(req *auth.DeliverTokenReq) (resp *auth.DeliveryResp, err error) {
-	claims := jwt.MapClaims{
-		"user_id": req.UserId,
-		"exp":     time.Now().Add(time.Hour * time.Duration(conf.GetConf().JWT.ExpireTime)).Unix(), // 过期时间
-		"iat":     time.Now().Unix(),                                                               // 创建时间
-	}
+	// 创建一个新的 JWT 令牌
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["user_id"] = req.UserId
+	claims["exp"] = time.Now().Add(conf.JWTExpirationTime).Unix()
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(conf.GetConf().JWT.Secret))
+	// 生成签名后的令牌
+	tokenString, err := token.SignedString([]byte(conf.JWTSecret))
 	if err != nil {
 		return nil, err
 	}
 
-	return &auth.DeliveryResp{Token: tokenString}, nil
+	// 返回令牌响应
+	return &auth.DeliveryResp{
+		Token: tokenString,
+	}, nil
 }
