@@ -24,3 +24,16 @@ func GetByEmail(db *gorm.DB, ctx context.Context, email string) (user *User, err
 func Create(db *gorm.DB, ctx context.Context, user *User) error {
 	return db.WithContext(ctx).Create(user).Error
 }
+
+func Delete(db *gorm.DB, ctx context.Context, id uint) error {
+	return db.WithContext(ctx).Delete(&User{}, id).Error
+}
+
+func Update(db *gorm.DB, ctx context.Context, user *User) error {
+	return db.WithContext(ctx).Save(user).Error
+}
+
+func GetByID(db *gorm.DB, ctx context.Context, id uint) (user *User, err error) {
+	err = db.WithContext(ctx).First(&user, id).Error
+	return
+}

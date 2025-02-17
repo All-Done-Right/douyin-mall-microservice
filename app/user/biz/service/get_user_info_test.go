@@ -10,19 +10,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func TestLogin_Run(t *testing.T) {
+func TestGetUserInfo_Run(t *testing.T) {
 	err := godotenv.Load("../../.env")
 	if err != nil {
 		klog.Error(err.Error())
 	}
 	mysql.Init()
 	ctx := context.Background()
-	s := NewLoginService(ctx)
+	s := NewGetUserInfoService(ctx)
 	// init req and assert value
 
-	req := &user.LoginReq{
-		Email:    "1111@qq.com",
-		Password: "123",
+	req := &user.GetUserInfoReq{
+		UserId: 5,
 	}
 	resp, err := s.Run(req)
 	t.Logf("err: %v", err)
