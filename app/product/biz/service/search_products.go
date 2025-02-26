@@ -1,11 +1,11 @@
 package service
 
 import (
-	"GoMall/app/product/biz/dal/mysql"
-	"GoMall/app/product/biz/model"
-	product "GoMall/rpc_gen/kitex_gen/product"
+	"app/product/biz/dal/mysql"
+	"app/product/biz/model"
 	"context"
 	"fmt"
+	product "rpc_gen/kitex_gen/product"
 )
 
 type SearchProductsService struct {

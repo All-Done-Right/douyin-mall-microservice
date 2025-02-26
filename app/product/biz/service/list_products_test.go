@@ -1,8 +1,8 @@
 package service
 
 import (
-	product "GoMall/rpc_gen/kitex_gen/product"
 	"context"
+	product "rpc_gen/kitex_gen/product"
 	"testing"
 )
 

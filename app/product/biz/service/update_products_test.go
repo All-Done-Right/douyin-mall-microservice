@@ -1,10 +1,10 @@
 package service
 
 import (
-	"GoMall/app/product/biz/dal/mysql"
-	product "GoMall/rpc_gen/kitex_gen/product"
+	"app/product/biz/dal/mysql"
 	"context"
 	"github.com/joho/godotenv"
+	product "rpc_gen/kitex_gen/product"
 	"testing"
 )
 

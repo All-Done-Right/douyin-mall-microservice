@@ -2,8 +2,8 @@
 package productcatalogservice
 
 import (
-	product "GoMall/rpc_gen/kitex_gen/product"
 	server "github.com/cloudwego/kitex/server"
+	product "rpc_gen/kitex_gen/product"
 )
 
 // NewServer creates a server.Server with the given handler and options.

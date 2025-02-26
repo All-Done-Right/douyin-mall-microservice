@@ -1,9 +1,8 @@
 package main
 
 import (
-	"GoMall/app/product/biz/dal"
-	"GoMall/app/product/conf"
-	"GoMall/rpc_gen/kitex_gen/product/productcatalogservice"
+	"app/product/biz/dal"
+	"app/product/conf"
 	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
@@ -15,6 +14,7 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net"
+
 	"time"
 )
 
@@ -28,7 +28,7 @@ func main() {
 
 	opts := kitexInit()
 
-	svr := productcatalogservice.NewServer(new(ProductCatalogServiceImpl), opts...)
+	svr := NewServer(new(ProductCatalogServiceImpl), opts...)
 
 	err := svr.Run()
 	if err != nil {
@@ -57,6 +57,10 @@ func kitexInit() (opts []server.Option) {
 	}
 
 	//其他软件的服务注册.......
+	//r, err := consul.NewConsulRegister("127.0.0.1:8500")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	opts = append(opts, server.WithRegistry(r))
 	// klog

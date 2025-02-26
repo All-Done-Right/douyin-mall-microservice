@@ -3,13 +3,13 @@
 package productcatalogservice
 
 import (
-	product "GoMall/rpc_gen/kitex_gen/product"
 	"context"
 	"errors"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
 	proto "google.golang.org/protobuf/proto"
+	product "rpc_gen/kitex_gen/product"
 )
 
 var errInvalidMessageType = errors.New("invalid message type for service method handler")

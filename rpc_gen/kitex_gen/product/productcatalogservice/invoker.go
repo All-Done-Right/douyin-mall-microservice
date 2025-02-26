@@ -3,8 +3,8 @@
 package productcatalogservice
 
 import (
-	product "GoMall/rpc_gen/kitex_gen/product"
 	server "github.com/cloudwego/kitex/server"
+	product "rpc_gen/kitex_gen/product"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

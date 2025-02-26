@@ -1,8 +1,8 @@
 package service
 
 import (
-	"GoMall/app/product/biz/dal/mysql"
-	"GoMall/rpc_gen/kitex_gen/product"
+	"app/product/biz/dal/mysql"
+	"rpc_gen/kitex_gen/product"
 
 	"context"
 	"fmt"

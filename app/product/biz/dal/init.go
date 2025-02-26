@@ -1,7 +1,7 @@
 package dal
 
 import (
-	"GoMall/app/product/biz/dal/mysql"
+	"app/product/biz/dal/mysql"
 )
 
 func Init() {
