@@ -28,21 +28,19 @@ jobs:
         id: changed-services
         run: |
           # 定义微服务目录
-          SERVICES=("auth" "cart" "payment" "frontend" "checkout" "order" "user" "product")
+          SERVICES=("auth" "cart" "payment" "frontend" "checkout" "order" "user")
           CHANGED_SERVICES=()
 
           # 遍历微服务目录，检查是否有文件被修改
           for service in "${SERVICES[@]}"; do
             if echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -q "app/$service/"; then
               CHANGED_SERVICES+=("$service")
-              echo "$service"
             fi
           done
 
           # 如果没有微服务被修改，默认测试所有微服务
           if [ ${#CHANGED_SERVICES[@]} -eq 0 ]; then
             CHANGED_SERVICES=("${SERVICES[@]}")
-            echo "No services changed. Testing all services."
           fi
 
           # 将结果转换为 JSON 数组

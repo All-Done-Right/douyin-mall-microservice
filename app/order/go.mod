@@ -5,16 +5,13 @@ go 1.23.1
 toolchain go1.23.6
 
 replace (
-	github.com/All-Done-Right/douyin-mall-microservice/app/order => ../../app/order
 	github.com/All-Done-Right/douyin-mall-microservice/config => ./conf/config/config
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen => ../../rpc_gen
 )
 
 require (
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen v0.0.0-00010101000000-000000000000
-	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/Mmx233/EnvConfig v0.0.2
-	github.com/alicebob/miniredis/v2 v2.34.0
 	github.com/cloudwego/kitex v0.12.2
 	github.com/google/uuid v1.6.0
 	github.com/kitex-contrib/registry-consul v0.1.0
@@ -22,13 +19,11 @@ require (
 	github.com/pelletier/go-toml v1.9.5
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/sirupsen/logrus v1.9.3
-	github.com/stretchr/testify v1.9.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
 
 require (
-	github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302 // indirect
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/bytedance/gopkg v0.1.1 // indirect
 	github.com/bytedance/sonic v1.12.7 // indirect
@@ -75,12 +70,11 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/stretchr/objx v0.5.2 // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/tidwall/gjson v1.17.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	github.com/yuin/gopher-lua v1.1.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.12 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.12 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.12 // indirect

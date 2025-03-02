@@ -12,7 +12,7 @@ replace (
 )
 
 require (
-	github.com/All-Done-Right/douyin-mall-microservice/common v0.0.0-20250221030954-58f21ff9d9c9
+	github.com/All-Done-Right/douyin-mall-microservice/common v0.0.0-00010101000000-000000000000
 	github.com/All-Done-Right/douyin-mall-microservice/rpc_gen v0.0.0-00010101000000-000000000000
 	github.com/cloudwego/kitex v0.12.1
 	github.com/joho/godotenv v1.5.1
@@ -36,6 +36,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
+	github.com/All-Done-Right/douyin-mall-microservice/common v0.0.0-20250107114945-cd595cc0e3ad // indirect
 	github.com/cloudwego/configmanager v0.2.2 // indirect
 	github.com/cloudwego/dynamicgo v0.4.7-0.20241220085612-55704ea4ca8f // indirect
 	github.com/cloudwego/fastpb v0.0.5 // indirect
