@@ -63,7 +63,9 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 		err = fmt.Errorf("GetCart.err:%v", err)
 		return
 	}
-	if cartResult == nil || cartResult.Cart == nil || len(cartResult.Cart.Items) == 0 {
+	//if cartResult == nil || cartResult.Cart == nil || len(cartResult.Cart.Items) == 0 {
+	if cartResult == nil || len(cartResult.Items) == 0 {
+
 		err = errors.New("cart is empty")
 		return
 	}
@@ -71,7 +73,8 @@ func (s *CheckoutService) Run(req *checkout.CheckoutReq) (resp *checkout.Checkou
 		oi    []*order.OrderItem
 		total float32
 	)
-	for _, cartItem := range cartResult.Cart.Items {
+	//for _, cartItem := range cartResult.Cart.Items {
+	for _, cartItem := range cartResult.Items {
 		productResp, resultErr := rpc.ProductClient.GetProduct(s.ctx, &product.GetProductReq{Id: cartItem.ProductId})
 		if resultErr != nil {
 			klog.Error(resultErr)

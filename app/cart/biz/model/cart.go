@@ -2,13 +2,17 @@ package model
 
 import (
 	"context"
+	//"database/sql"
 	"errors"
+
+	//"github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/product/productcatalogservice"
 
 	"gorm.io/gorm"
 )
 
 type Cart struct {
-	gorm.Model
+	//gorm.Model
+	Base
 	UserID    uint32 `gorm:"type:int(11);not null;index:idx_user_id"`
 	ProductID uint32 `gorm:"type:int(11);not null"`
 	Qty       uint32 `gorm:"type:int(11);not null"`
@@ -18,22 +22,18 @@ func (Cart) TableName() string {
 	return "cart"
 }
 
-func AddItem(ctx context.Context, db *gorm.DB, cart *Cart) error {
-	var row Cart
-	err := db.WithContext(ctx).
-		Model(&Cart{}).
-		Where(&Cart{UserID: cart.UserID, ProductID: cart.ProductID}).
-		First(&row).Error
+func AddItem(db *gorm.DB, ctx context.Context, c *Cart) error {
+	var find Cart
+	err := db.WithContext(ctx).Model(&Cart{}).Where(&Cart{UserID: c.UserID, ProductID: c.ProductID}).First(&find).Error
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return err
 	}
-	if row.ID > 0 {
-		return db.WithContext(ctx).
-			Model(&Cart{}).
-			Where(&Cart{UserID: cart.UserID, ProductID: cart.ProductID}).
-			UpdateColumn("qty", gorm.Expr("qty+?", cart.Qty)).Error
+	if find.ID != 0 {
+		err = db.WithContext(ctx).Model(&Cart{}).Where(&Cart{UserID: c.UserID, ProductID: c.ProductID}).UpdateColumn("qty", gorm.Expr("qty+?", c.Qty)).Error
+	} else {
+		err = db.WithContext(ctx).Model(&Cart{}).Create(c).Error
 	}
-	return db.WithContext(ctx).Create(cart).Error
+	return err
 }
 
 func EmptyCart(ctx context.Context, db *gorm.DB, userId uint32) error {
@@ -43,11 +43,7 @@ func EmptyCart(ctx context.Context, db *gorm.DB, userId uint32) error {
 	return db.WithContext(ctx).Delete(&Cart{}, "user_id =?", userId).Error
 }
 
-func GetCartByUserId(ctx context.Context, db *gorm.DB, userId uint32) ([]*Cart, error) {
-	var rows []*Cart
-	err := db.WithContext(ctx).
-		Model(&Cart{}).
-		Where(&Cart{UserID: userId}).
-		Find(&rows).Error
-	return rows, err
+func GetCartByUserId(db *gorm.DB, ctx context.Context, userId uint32) (cartList []*Cart, err error) {
+	err = db.Debug().WithContext(ctx).Model(&Cart{}).Find(&cartList, "user_id = ?", userId).Error
+	return cartList, err
 }

@@ -3,25 +3,50 @@ package service
 import (
 	"context"
 
-	"github.com/All-Done-Right/douyin-mall-microservice/app/cart/biz/dal/mysql"
 	"github.com/All-Done-Right/douyin-mall-microservice/app/cart/biz/model"
-	"github.com/All-Done-Right/douyin-mall-microservice/app/cart/rpc"
 	cart "github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/cart"
-	"github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/product"
+	product "github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/product"
+	"gorm.io/gorm"
+
+	RPCproduct "github.com/All-Done-Right/douyin-mall-microservice/rpc_gen/kitex_gen/product/productcatalogservice"
 	"github.com/cloudwego/kitex/pkg/kerrors"
 )
 
 type AddItemService struct {
-	ctx context.Context
-} // NewAddItemService new AddItemService
-func NewAddItemService(ctx context.Context) *AddItemService {
-	return &AddItemService{ctx: ctx}
+	ProductClient RPCproduct.Client
+	CartStore     model.CartStore
+	Ctx           context.Context
+	DB            *gorm.DB
+}
+
+// NewAddItemService new AddItemService
+func NewAddItemService(
+	ctx context.Context,
+	store model.CartStore,
+	productClient RPCproduct.Client,
+) *AddItemService {
+	return &AddItemService{
+		Ctx:           ctx,
+		CartStore:     store,
+		ProductClient: productClient,
+	}
 }
 
 // Run create note info
 
 func (s *AddItemService) Run(req *cart.AddItemReq) (resp *cart.AddItemResp, err error) {
-	productResp, err := rpc.ProductClient.GetProduct(s.ctx, &product.GetProductReq{Id: req.Item.ProductId})
+	if s.ProductClient == nil {
+		return nil, kerrors.NewBizStatusError(50000, "product client is nil")
+	}
+	if s.CartStore == nil {
+		return nil, kerrors.NewBizStatusError(50000, "cart store is nil")
+	}
+	if s.ProductClient == nil {
+		panic("productClient is nil")
+	}
+	//productResp, err := rpc.ProductClient.GetProduct(s.Ctx, &product.GetProductReq{Id: req.Item.ProductId})
+	productResp, err := s.ProductClient.GetProduct(s.Ctx, &product.GetProductReq{Id: req.Item.ProductId})
+
 	if err != nil {
 		return nil, err
 	}
@@ -29,11 +54,11 @@ func (s *AddItemService) Run(req *cart.AddItemReq) (resp *cart.AddItemResp, err 
 		return nil, kerrors.NewBizStatusError(40004, "product not found")
 	}
 	cartItem := &model.Cart{
-		UserId:    req.UserId,
+		UserID:    req.UserId,
 		ProductID: req.Item.ProductId,
 		Qty:       req.Item.Quantity,
 	}
-	err = model.AddItem(s.ctx, mysql.DB, cartItem)
+	err = s.CartStore.AddItem(s.Ctx, cartItem)
 	if err != nil {
 		return nil, kerrors.NewBizStatusError(50000, err.Error())
 	}

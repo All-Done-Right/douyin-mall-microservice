@@ -21,6 +21,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+
+
 type CartItem struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
