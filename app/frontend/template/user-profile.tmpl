@@ -1,0 +1,79 @@
+{{template "header" .}}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fa-solid fa-user-circle me-2"></i>个人信息</h3>
+                </div>
+                <div class="card-body">
+                    {{if .UserInfo}}
+                    <div class="text-center mb-4">
+                        {{if .UserInfo.Avatar}}
+                        <img src="{{.UserInfo.Avatar}}" alt="头像" class="rounded-circle mb-3 border shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                        {{else}}
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto mb-3 shadow" style="width: 150px; height: 150px;">
+                            <span class="text-white" style="font-size: 60px;">{{printf "%.1s" .UserInfo.Email}}</span>
+                        </div>
+                        {{end}}
+                        <h4>{{if .UserInfo.Nickname}}{{.UserInfo.Nickname}}{{else}}{{.UserInfo.Email}}{{end}}</h4>
+                    </div>
+                    <form action="/user/profile/update" method="POST">
+                        <input type="hidden" name="user_id" value="{{.UserInfo.UserId}}">
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label"><i class="fa-solid fa-envelope me-2"></i>邮箱</label>
+                            <input type="email" class="form-control" id="email" value="{{.UserInfo.Email}}" readonly>
+                            <div class="form-text text-muted">邮箱地址不可修改</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="nickname" class="form-label"><i class="fa-solid fa-user-tag me-2"></i>昵称</label>
+                            <input type="text" class="form-control" id="nickname" name="nickname" value="{{.UserInfo.Nickname}}">
+                            <div class="form-text">设置一个好记的昵称</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label"><i class="fa-solid fa-image me-2"></i>头像URL</label>
+                            <input type="text" class="form-control" id="avatar" name="avatar" value="{{.UserInfo.Avatar}}">
+                            <div class="form-text">输入一个有效的图片URL作为头像</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label"><i class="fa-solid fa-phone me-2"></i>手机号码</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{.UserInfo.Phone}}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label"><i class="fa-solid fa-map-marker-alt me-2"></i>地址</label>
+                            <textarea class="form-control" id="address" name="address" rows="3">{{.UserInfo.Address}}</textarea>
+                            <div class="form-text">用于收货的详细地址</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="create_time" class="form-label"><i class="fa-solid fa-calendar-alt me-2"></i>注册时间</label>
+                            <input type="text" class="form-control" id="create_time" value="{{.UserInfo.CreateTime}}" readonly>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save me-2"></i>保存更改</button>
+                            <a href="/user/delete" class="btn btn-danger" onclick="return confirm('确定要注销账户吗？此操作不可恢复！')"><i class="fa-solid fa-user-times me-2"></i>注销账户</a>
+                        </div>
+                    </form>
+                    {{else}}
+                    <div class="alert alert-danger">
+                        <i class="fa-solid fa-exclamation-triangle me-2"></i>无法获取用户信息，请稍后再试或重新登录。
+                        {{if .Message}}
+                        <p class="mt-2">{{.Message}}</p>
+                        {{end}}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="/sign-in" class="btn btn-primary"><i class="fa-solid fa-sign-in-alt me-2"></i>返回登录</a>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{template "footer" .}} 

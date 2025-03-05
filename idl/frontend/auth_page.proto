@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package frontend.auth;
+
+import "api.proto";
+import "frontend/common.proto";
+
+option go_package = "/frontend/auth";
+
+message RegisterReq {
+  string email = 1 [(api.form) = "email"];
+  string password = 2 [(api.form) = "password"];
+  string confirm_password = 3 [(api.form) = "confirm_password"];
+}
+
+message LoginReq {
+  string email = 1 [(api.form) = "email"];
+  string password = 2 [(api.form) = "password"];
+  string next = 3 [(api.query) = "next"];
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  int32 user_id = 2;
+  string message = 3;
+}
+
+// 用户个人信息相关的消息
+message UserProfileRequest {
+  int32 user_id = 1;
+}
+
+message UserProfileResponse {
+  bool success = 1;
+  int32 user_id = 2;
+  string email = 3;
+  string nickname = 4;
+  string avatar = 5;
+  string phone = 6;
+  string address = 7;
+  string create_time = 8;
+  string message = 9;
+}
+
+message UpdateUserProfileRequest {
+  int32 user_id = 1;
+  string nickname = 2;
+  string avatar = 3;
+  string phone = 4;
+  string address = 5;
+}
+
+message UpdateUserProfileResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DeleteUserRequest {
+  int32 user_id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service AuthService {
+  rpc register(RegisterReq) returns (common.Empty) {
+    option (api.post) = "/auth/register";
+  }
+  rpc login(LoginReq) returns (common.Empty) {
+    option (api.post) = "/auth/login";
+  }
+  rpc logout(common.Empty) returns (common.Empty) {
+    option (api.post) = "/auth/logout";
+  }
+
+  // 添加用户个人信息相关的RPC
+  rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse) {
+    option (api.get) = "/user/profile";
+  }
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {
+    option (api.post) = "/user/profile/update";
+  }
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (api.post) = "/user/delete";
+  }
+
+}

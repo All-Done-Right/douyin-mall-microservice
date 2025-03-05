@@ -1,0 +1,52 @@
+// idl/hello/hello.proto
+syntax = "proto3";
+
+package frontend.product;
+import "api.proto";
+
+option go_package = "/frontend/product";
+
+message Empty {}
+service ProductService{
+  rpc GetProduct(ProductReq) returns (Empty){
+    option(api.get) ="/product";
+  }
+  rpc SearchProducts(SearchProductsReq) returns (Empty){
+    option(api.get) ="/search";
+  }
+  rpc InsertProduct(InsertProductsReq) returns (Empty){
+    option(api.post) ="/insert";
+  }
+  rpc DeleteProduct(DeleteProductsReq) returns (Empty){
+    option(api.delete) ="/delete";
+  }
+  rpc UpdateProduct(UpdateProductsReq) returns (Empty){
+    option(api.put) ="/update";
+  }
+}
+message Product{
+  uint32 id =1;
+  string  name =2;
+  string description =3;
+  string picture =4;
+  float price = 5;
+  repeated string categories =6;
+
+}
+message ProductReq{
+  uint32 id =1 [(api.query)="id"];
+
+}
+message SearchProductsReq{
+  string q=1 [(api.query)="q"];
+}
+message UpdateProductsReq{
+  Product product= 1 [(api.query)="product"];
+}
+message DeleteProductsReq{
+  uint32 id =1 [(api.query)="id"];
+}
+message InsertProductsReq{
+  Product product= 1 [(api.query)="product"];
+  uint32 categoryId = 2 [(api.query)="categoryId"];
+}

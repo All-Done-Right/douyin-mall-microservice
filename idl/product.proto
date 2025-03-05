@@ -1,48 +1,68 @@
 syntax = "proto3";
-
 package product;
-
 option go_package = "/product";
-
-service ProductCatalogService {
-  rpc ListProducts(ListProductsReq) returns (ListProductsResp) {}
-  rpc GetProduct(GetProductReq) returns (GetProductResp) {}
-  rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp) {}
+service ProductCatalogService{
+  //获取商品列表
+  rpc ListProducts(ListProductsReq) returns (ListProductsResp){};
+  //商品详情
+  rpc GetProduct(GetProductReq) returns (GetProductResp){};
+  //商品查询
+  rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp){};
+  //增加
+  rpc InsertProducts(InsertProductsReq) returns (Empty){};
+  //删除
+  rpc DeleteProducts(DeleteProductsReq) returns (Empty){};
+  //改
+  rpc UpdateProducts(UpdateProductsReq) returns (Empty){};
 }
-
+message  Empty{}
 message ListProductsReq{
+  //分页参数
   int32 page = 1;
-  int64 pageSize = 2;
-
-  string categoryName = 3;
+  int32 page_size = 2;
+  string category_name = 3;
 }
-
-message Product {
-  uint32 id = 1;
-  string name = 2;
-  string description = 3;
-  string picture = 4;
+message Product{
+  uint32 id =1;
+  string  name =2;
+  string description =3;
+  string picture =4;
   float price = 5;
+  repeated string categories =6;
 
-  repeated string categories = 6;
 }
 
-message ListProductsResp {
-  repeated Product products = 1;
-}
+message ListProductsResp{
+  //分页参数
+  repeated Product products =1;
 
-message GetProductReq {
+}
+message GetProductReq{
   uint32 id = 1;
 }
+message GetProductResp{
+  Product product =1;
+}
+message SearchProductsReq{
+  string query =1;
+}
+message SearchProductsResp{
+  repeated Product results =1;
+}
 
-message GetProductResp {
+
+
+//删除
+message DeleteProductsReq{
+  uint32 id = 1;
+
+}
+//修改
+message UpdateProductsReq{
   Product product = 1;
 }
-
-message SearchProductsReq {
-  string query = 1;
-}
-
-message SearchProductsResp {
-  repeated Product results = 1;
+//增加
+message InsertProductsReq{
+  Product product = 1;
+  int32 category_id=2;
 }

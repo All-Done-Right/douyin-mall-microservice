@@ -1,13 +1,9 @@
-syntax="proto3";
+syntax = "proto3";
 
 package user;
 
-option go_package="/user";
+option go_package = "/user";
 
-service UserService {
-    rpc Register(RegisterReq) returns (RegisterResp) {}
-    rpc Login(LoginReq) returns (LoginResp) {}
-}
 
 message RegisterReq {
     string email = 1;
@@ -20,10 +16,57 @@ message RegisterResp {
 }
 
 message LoginReq {
-    string email= 1;
+    string email = 1;
     string password = 2;
 }
 
 message LoginResp {
     int32 user_id = 1;
+}
+
+// 新增请求和响应消息
+message UpdateUserInfoReq {
+    int32 user_id = 1;
+    string nickname = 2;
+    string avatar = 3;
+    string phone = 4;
+    string address = 5;
+}
+
+message UpdateUserInfoResp {
+    bool success = 1;
+    string message = 2;
+}
+
+message GetUserInfoReq {
+    int32 user_id = 1;
+}
+
+message GetUserInfoResp {
+    int32 user_id = 1;
+    string email = 2;
+    string nickname = 3;
+    string avatar = 4;
+    string phone = 5;
+    string address = 6;
+    string create_time = 7;
+}
+
+message DeleteUserReq {
+    int32 user_id = 1;
+}
+
+message DeleteUserResp {
+    bool success = 1;
+    string message = 2;
+}
+
+service UserService {
+  rpc Register (RegisterReq) returns (RegisterResp) {}
+  rpc Login (LoginReq) returns (LoginResp) {}
+  
+  // 新增三个功能接口
+  rpc UpdateUserInfo (UpdateUserInfoReq) returns (UpdateUserInfoResp) {}
+  rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoResp) {}
+  rpc DeleteUser (DeleteUserReq) returns (DeleteUserResp) {}
 }

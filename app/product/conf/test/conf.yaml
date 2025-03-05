@@ -1,0 +1,33 @@
+kitex:
+  service: "product"
+#  修改地址+端口
+  address: "192.168.2.21:8888"
+  log_level: info
+  log_file_name: "log/kitex.log"
+  log_max_size: 10
+  log_max_age: 3
+  log_max_backups: 50
+#Nacos作为注册中心
+registry:
+  registry_address:
+    - 127.0.0.1:8848
+  username: ""
+  password: ""
+
+#其他作为注册中心
+#registry:
+#  registry_address:
+#    - 127.0.0.1:8848
+#  username: ""
+#  password: ""
+
+
+#本地Mysql地址，其他地址需要请修改
+mysql:
+  dsn: "%s:%s@tcp(%s:3306)/goods?charset=utf8mb4&parseTime=True&loc=Local"
+#本地redis地址，其他地址需要请修改
+redis:
+  address: "127.0.0.1:6379"
+  username: ""
+  password: ""
+  db: 0
